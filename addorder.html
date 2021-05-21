@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Аврора</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="src/js/addorder.js"></script>
+</head>
+
+<body class="mx-5">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-danger rounded">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Аврора</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="index.html">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="addpact.php">Оформить страховку</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pacts.html">Страховые полисы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="clients.html">Клиенты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="workers.html">Работники</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="addworker.html">Добавить работника</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="addclient.html">Добавить клиента</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="addorder.html">Добавить услугу</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="alert alert-success my-3" role="alert" id="success">Успешно!</div>
+        <form method="POST" id="sendfm">
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">Добавить услугу</h4>
+                <div class="row g-3">
+                    <div class="alert alert-warning" role="alert">
+                        Проверьте все данные перед отправкой формы!
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="order_name" class="form-label">Название</label>
+                        <input type="text" class="form-control" name="order_name" id="order_name" placeholder="Е-ОСАГО Скидка 100%">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="order_type" class="form-label">Тип</label>
+                        <input type="text" class="form-control" name="order_type" id="order_type"
+                            placeholder="Е-ОСАГО">
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="col-md-7 col-lg-8">
+                <div class="col-6">
+                    <input type="submit" id="send" name="send" class="btn btn-success" value="Добавить">
+                </div>
+            </div>
+        </form>
+        <hr class="my-4">
+        <form method="POST" id="editfm">
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">Изменение информации об услугах</h4>
+                <div class="row g-3">
+                    <div id="select_order" class="col-sm-12"></div>
+                    <input type="hidden" name="id_order" id="id_order">
+                    <div class="col-sm-6">
+                        <label for="order_name" class="form-label">Название</label>
+                        <input type="text" class="form-control" name="edit_order_name" id="edit_order_name" placeholder="Е-ОСАГО Скидка 100%">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="order_type" class="form-label">Тип</label>
+                        <input type="text" class="form-control" name="edit_order_type" id="edit_order_type"
+                            placeholder="Е-ОСАГО">
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+            <div class="col-md-7 col-lg-8">
+                <div class="col-6">
+                    <input type="submit" id="edit" name="edit" class="btn btn-success" value="Изменить">
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <hr>
+        <p class="mb-1">&copy; 2021 Аврора</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Аврора</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</head>
+
+<body class="mx-5">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-danger rounded">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Аврора</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="index.html">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="addpact.php">Оформить страховку</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pacts.html">Страховые полисы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="clients.html">Клиенты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="workers.html">Работники</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="addworker.html">Добавить работника</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="addclient.html">Добавить клиента</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="addorder.html">Добавить услугу</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <form method="POST" id="myfm">
+            <div class="col-md-7 col-lg-8">
+
+                <h4 class="mb-3">Поиск клиентов</h4>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label for="insurance_object" class="form-label">Тип поиска:</label>
+                        <select name="type" id="type" class="form-select">
+                            <option selected value="id_worker">По номеру</option>
+                            <option value="name">По имени</option>
+                            <option value="last_name">По фамилии</option>
+                            <option value="phone_number">По номеру телефона</option>
+                            <option value="email">Email</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="insurance_object" class="form-label">Сортировка:</label>
+                        <select name="sort" id="sort" class="form-select">
+                            <option selected value="ASC">По возрастанию</option>
+                            <option value="DESC">По убыванию</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="insurance_object" class="form-label">Поиск:</label>
+                        <input type="text" class="form-control" name="search" id="search"
+                            placeholder="5">
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+            <div class="col-md-7 col-lg-8">
+                <div class="col-6">
+                    <input type="submit" id="find" name="find" class="btn btn-primary" value="Поиск">
+                </div>
+            </div>
+        </form>
+        <script>
+            $("#find").on("click", function () {
+                $("#table").text('');
+                var menu = $('#myfm').serialize();
+                $.ajax({
+                    url: 'src/php/view/workers.php',
+                    type: 'POST',
+                    cache: false,
+                    data: menu,
+                    dataType: "json",
+                    success: function (result) {
+                        if (result) {
+                            var res =
+                                '<table class="table table-hover table-responsive"><tr><th scope="col">ID клиента</th><th scope="col">Имя</th><th scope="col">Фамилия</th><th scope="col">Телефон</th><th scope="col">Почта</th><th scope="col">Удалить</th></tr>';
+                            for (var i = 0; i < result.menu.id_worker.length; i++) {
+                                res += '<tr><th scope="row">' + result.menu.id_worker[i] +
+                                    '</th><td>' + result.menu.name[i] +
+                                    '</td><td>' +
+                                    result.menu.last_name[i] + '</td><td>' + result
+                                    .menu
+                                    .phone_number[i] + '</td><td>' + result.menu
+                                    .email[i] + '</td><td><button class="btn btn-danger" id="delete" value="' +
+                                    result.menu.id_worker[i] +
+                                    '"> Удалить</button></td></tr>';
+                            }
+                            res += '</table>';
+                            console.log(res);
+                            $("#table").append(res);
+                        } else {
+                            console.log("ОШИБКА!");
+                        }
+                        return false;
+                    }
+                });
+                return false;
+            });
+            $(document).on('click', '#delete', function (e) {
+                var id_worker = $(this).attr("value");
+                $.ajax({
+                        url: 'src/php/del/delworker.php',
+                        type: 'POST',
+                        cache: false,
+                        data: {
+                            "id_worker": id_worker
+                        },
+                        dataType: "json",
+                    })
+                    .done(function () {
+                        console.log("success");
+                        $("#table").load(location.href + " #table");
+                    })
+                    .fail(function () {
+                        console.log("error");
+                        $("#table").load(location.href + " #table");
+                    });
+            });
+            $('#type').change(function () {
+                if ($('#type').val() == 'name') {
+                    $('#search').attr("placeholder", "Иван");
+                } else if ($('#type').val() == 'last_name') {
+                    $('#search').attr("placeholder", "Иванов");
+                } else if ($('#type').val() == 'phone_number') {
+                    $('#search').attr("placeholder", "71233456789");
+                } else if ($('#type').val() == 'email') {
+                    $('#search').attr("placeholder", "you@example.com");
+                }
+            });
+        </script>
+        <div id="table"></div>
+    </div>
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <hr>
+        <p class="mb-1">&copy; 2021 Аврора</p>
+    </footer>
+</body>
+
+</html>
